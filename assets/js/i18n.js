@@ -8,6 +8,7 @@ fr: {
   "hero.place": "Kleinblittersdorf, Allemagne",
   "hero.cta": "Répondre avant le 15 janvier",
 
+  "cd.days":"jours","cd.hours":"heures","cd.min":"minutes","cd.sec":"secondes","cd.caption":"avant le grand oui",
   "day.title": "Le 27 mars, de l'après-midi à la nuit",
   "day.lede": "Le soleil se couche à 18h54, juste à la fin de la séance photo. Et cette nuit-là on passe à l'heure d'été : à 2h il sera 3h, la fête perd une heure.",
   "ev.arrive": "Arrivée des invités",
@@ -97,6 +98,7 @@ de: {
   "hero.place": "Kleinblittersdorf, Deutschland",
   "hero.cta": "Antwort bis 15. Januar",
 
+  "cd.days":"Tage","cd.hours":"Stunden","cd.min":"Minuten","cd.sec":"Sekunden","cd.caption":"bis zum Ja-Wort",
   "day.title": "Der 27. März, vom Nachmittag bis in die Nacht",
   "day.lede": "Die Sonne geht um 18:54 unter, genau am Ende des Fotoshootings. Und in dieser Nacht beginnt die Sommerzeit: um 2 Uhr ist es plötzlich 3 Uhr, die Party verliert eine Stunde.",
   "ev.arrive": "Ankunft der Gäste",
@@ -186,6 +188,7 @@ en: {
   "hero.place": "Kleinblittersdorf, Germany",
   "hero.cta": "Reply by 15 January",
 
+  "cd.days":"days","cd.hours":"hours","cd.min":"minutes","cd.sec":"seconds","cd.caption":"until we say yes",
   "day.title": "27 March, from afternoon into the night",
   "day.lede": "The sun sets at 18:54, right as the photo session ends. And that night the clocks spring forward: at 2:00 it suddenly becomes 3:00, so the party loses an hour.",
   "ev.arrive": "Guests arrive",
@@ -275,6 +278,7 @@ nl: {
   "hero.place": "Kleinblittersdorf, Duitsland",
   "hero.cta": "Antwoord vóór 15 januari",
 
+  "cd.days":"dagen","cd.hours":"uur","cd.min":"minuten","cd.sec":"seconden","cd.caption":"tot het jawoord",
   "day.title": "27 maart, van de middag tot diep in de nacht",
   "day.lede": "De zon gaat om 18:54 onder, precies aan het einde van de fotosessie. En die nacht gaat de zomertijd in: om 2:00 is het ineens 3:00, het feest verliest een uur.",
   "ev.arrive": "Aankomst van de gasten",

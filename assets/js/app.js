@@ -119,6 +119,7 @@
       const li = document.createElement("li");
       li.className = `ev ${e.side}` + (e.end ? " range" : "") + (e.open ? " open" : "");
       li.style.setProperty("--p", pos(e.m));
+      li.style.setProperty("--i", EVENTS.indexOf(e));
       if (e.end) {
         const bar = document.createElement("span");
         bar.className = "rangebar";
@@ -313,6 +314,7 @@
     $("#thanks").hidden = false;
     $("#thanksTitle").textContent = t(yes ? "rsvp.thanksYes" : "rsvp.thanksNo", { name: first });
     $("#thanksBody").textContent = yes ? t(n > 1 ? "rsvp.thanksYesBody" : "rsvp.thanksYesBody1", { n }) : t("rsvp.thanksNoBody");
+    if (yes) leaves();
     $("#rsvp").scrollIntoView({ behavior: "smooth" });
   }
   $("#again").onclick = () => { $("#thanks").hidden = true; form.hidden = false; };
@@ -327,6 +329,53 @@
   };
   $$("[data-lang]").forEach(b => b.onclick = () => setLang(b.dataset.lang, true));
   if (store.get("rsvp")) $("#already").hidden = false;
+
+  /* ───────── countdown to 27.03.2027 16:00 (CET = UTC+1) ───────── */
+  const WEDDING = Date.UTC(2027, 2, 27, 15, 0, 0);
+  function tick() {
+    const ms = WEDDING - Date.now();
+    const box = $("#countdown");
+    if (ms <= 0) { box.hidden = true; return; }
+    const s = Math.floor(ms / 1000);
+    $("#cdD").textContent = Math.floor(s / 86400);
+    $("#cdH").textContent = String(Math.floor(s / 3600) % 24).padStart(2, "0");
+    $("#cdM").textContent = String(Math.floor(s / 60) % 60).padStart(2, "0");
+    $("#cdS").textContent = String(s % 60).padStart(2, "0");
+  }
+  tick(); setInterval(tick, 1000);
+
+  /* ───────── reveal on scroll ───────── */
+  const revealSel = "section > h2, .lede, .deadline, .where-grid, .place, .gift > p, .gift .btn, #form, .day .track";
+  $$(revealSel).forEach(el => el.classList.add("reveal"));
+  const io = "IntersectionObserver" in window ? new IntersectionObserver(entries => {
+    entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); } });
+  }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 }) : null;
+  $$(".reveal").forEach(el => io ? io.observe(el) : el.classList.add("in"));
+
+  /* ───────── header: transparent over the hero, solid once scrolled ───────── */
+  const topBar = $(".top");
+  const onScroll = () => topBar.classList.toggle("scrolled", scrollY > 40);
+  addEventListener("scroll", onScroll, { passive: true }); onScroll();
+
+  /* ───────── falling leaves after a yes ───────── */
+  function leaves() {
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const layer = document.createElement("div");
+    layer.className = "leaf-rain"; layer.setAttribute("aria-hidden", "true");
+    for (let i = 0; i < 26; i++) {
+      const img = new Image();
+      img.src = i % 2 ? "assets/img/leaf-r.png" : "assets/img/leaf-l.png";
+      img.style.left = Math.random() * 100 + "vw";
+      img.style.width = 22 + Math.random() * 34 + "px";
+      img.style.animationDuration = 4 + Math.random() * 3.5 + "s";
+      img.style.animationDelay = Math.random() * 1.6 + "s";
+      img.style.setProperty("--drift", (Math.random() * 160 - 80) + "px");
+      img.style.setProperty("--spin", (Math.random() * 540 - 270) + "deg");
+      layer.append(img);
+    }
+    document.body.append(layer);
+    setTimeout(() => layer.remove(), 9500);
+  }
 
   /* ───────── boot ───────── */
   const urlLang = new URLSearchParams(location.search).get("lang");

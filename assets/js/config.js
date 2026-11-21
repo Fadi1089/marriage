@@ -4,7 +4,7 @@
 window.CONFIG = {
   // Google Apps Script web-app URL (see README → "Connect the form").
   // Until this is filled in, the form shows an error instead of sending.
-  scriptUrl: "",
+  scriptUrl: "https://script.google.com/macros/s/AKfycbx5Eerw7YI1ooxkMBGv2-kK2WxaTk0CYjuAPB0qxW3FHJuInmz9uFpwfaDLSKprmKG5/exec",
 
   // Cagnotte link (Leetchi, Lydia/Sumeria, PayPal…). Leave "" to hide the button.
   cagnotteUrl: "",

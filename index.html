@@ -13,6 +13,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;0,700;1,400&family=Forum&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/bloom.css">
+  <script>document.documentElement.classList.add("js")</script>
 </head>
 <body>
 
@@ -44,6 +46,13 @@
     <img class="leaf leaf-l" src="assets/img/leaf-l.png" alt="" aria-hidden="true">
     <p class="hero-date" data-i18n="hero.date"></p>
     <p class="hero-time" data-i18n="hero.time"></p>
+    <div class="countdown" id="countdown">
+      <div><b id="cdD">000</b><span data-i18n="cd.days"></span></div>
+      <div><b id="cdH">00</b><span data-i18n="cd.hours"></span></div>
+      <div><b id="cdM">00</b><span data-i18n="cd.min"></span></div>
+      <div><b id="cdS">00</b><span data-i18n="cd.sec"></span></div>
+      <p class="cd-cap" data-i18n="cd.caption"></p>
+    </div>
     <p class="hero-addr">Bliesgau Scheune · Zum Bergwald 10-12, 66271</p>
     <p class="hero-place" data-i18n="hero.place"></p>
     <a class="btn" href="#rsvp" data-i18n="hero.cta"></a>
@@ -60,6 +69,8 @@
   </section>
 
   <!-- WHERE -->
+  <div class="wash">
+  <img class="leaf deco deco-where" src="assets/img/leaf-r.png" alt="" aria-hidden="true">
   <section class="where" id="where">
     <h2 data-i18n="where.title"></h2>
     <div class="where-grid">
@@ -76,9 +87,11 @@
         src="https://www.google.com/maps?q=Bliesgau+Scheune,+Zum+Bergwald+10,+66271+Kleinblittersdorf&z=14&output=embed"></iframe>
     </div>
   </section>
+  </div>
 
   <!-- STAY -->
   <section class="stay" id="stay">
+    <img class="leaf deco deco-stay" src="assets/img/leaf-l.png" alt="" aria-hidden="true">
     <h2 data-i18n="stay.title"></h2>
     <p class="lede" data-i18n="stay.lede"></p>
 
@@ -129,7 +142,10 @@
   </section>
 
   <!-- RSVP -->
+  <div class="wash">
   <section class="rsvp" id="rsvp">
+    <img class="leaf deco deco-rsvp-l" src="assets/img/leaf-l.png" alt="" aria-hidden="true">
+    <img class="leaf deco deco-rsvp-r" src="assets/img/leaf-r.png" alt="" aria-hidden="true">
     <h2 data-i18n="rsvp.title"></h2>
     <p class="deadline" data-i18n="rsvp.deadline"></p>
     <p class="lede" data-i18n="rsvp.lede"></p>
@@ -206,6 +222,7 @@
       <button type="button" class="link-btn" id="again" data-i18n="rsvp.again"></button>
     </div>
   </section>
+  </div>
 </main>
 
 <footer class="foot">

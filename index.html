@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lynn &amp; Fadi · 27.03.2027</title>
+  <meta name="description" content="Lynn & Fadi — 27.03.2027, Bliesgau Scheune, Kleinblittersdorf">
+  <meta property="og:title" content="Lynn & Fadi · 27.03.2027">
+  <meta property="og:description" content="Bliesgau Scheune, Kleinblittersdorf">
+  <meta property="og:image" content="assets/img/couple.jpg">
+  <link rel="icon" href="assets/img/leaf-r.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;0,700;1,400&family=Forum&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="top">
+  <a class="mark" href="#top" aria-label="Lynn &amp; Fadi">L <span>&amp;</span> F</a>
+  <nav class="nav">
+    <a href="#day" data-i18n="nav.day"></a>
+    <a href="#where" data-i18n="nav.where"></a>
+    <a href="#stay" data-i18n="nav.stay"></a>
+    <a href="#gift" data-i18n="nav.gift"></a>
+    <a href="#rsvp" class="nav-rsvp" data-i18n="nav.rsvp"></a>
+  </nav>
+  <div class="langs" role="group" aria-label="Language">
+    <button type="button" data-lang="fr">FR</button>
+    <button type="button" data-lang="de">DE</button>
+    <button type="button" data-lang="en">EN</button>
+    <button type="button" data-lang="nl">NL</button>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO: the invitation itself -->
+  <section class="hero">
+    <img class="hero-photo" src="assets/img/couple.jpg" alt="Lynn &amp; Fadi" width="1240" height="975">
+    <img class="hero-names" src="assets/img/names.png" alt="Lynn &amp; Fadi" width="820" height="210">
+    <p class="hero-invited" data-i18n="hero.invited"></p>
+    <img class="leaf leaf-r" src="assets/img/leaf-r.png" alt="" aria-hidden="true">
+    <img class="leaf leaf-l" src="assets/img/leaf-l.png" alt="" aria-hidden="true">
+    <p class="hero-date" data-i18n="hero.date"></p>
+    <p class="hero-time" data-i18n="hero.time"></p>
+    <p class="hero-addr">Bliesgau Scheune · Zum Bergwald 10-12, 66271</p>
+    <p class="hero-place" data-i18n="hero.place"></p>
+    <a class="btn" href="#rsvp" data-i18n="hero.cta"></a>
+  </section>
+
+  <!-- THE DAY: drawn as the light of 27 March 2027 -->
+  <section class="day" id="day">
+    <h2 data-i18n="day.title"></h2>
+    <p class="lede" data-i18n="day.lede"></p>
+    <div class="track" id="track">
+      <div class="band" id="band" aria-hidden="true"></div>
+      <ol class="evs" id="evs"></ol>
+    </div>
+  </section>
+
+  <!-- WHERE -->
+  <section class="where" id="where">
+    <h2 data-i18n="where.title"></h2>
+    <div class="where-grid">
+      <div>
+        <p class="venue-name">Bliesgau Scheune</p>
+        <p>Zum Bergwald 10-12<br>66271 Kleinblittersdorf<br><span data-i18n="where.country"></span></p>
+        <ul class="facts">
+          <li data-i18n="where.parking"></li>
+          <li data-i18n="where.sarreguemines"></li>
+        </ul>
+        <a class="link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Bliesgau+Scheune+Zum+Bergwald+10+66271+Kleinblittersdorf" data-i18n="where.maps"></a>
+      </div>
+      <iframe class="map" title="Map" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+        src="https://www.google.com/maps?q=Bliesgau+Scheune,+Zum+Bergwald+10,+66271+Kleinblittersdorf&z=14&output=embed"></iframe>
+    </div>
+  </section>
+
+  <!-- STAY -->
+  <section class="stay" id="stay">
+    <h2 data-i18n="stay.title"></h2>
+    <p class="lede" data-i18n="stay.lede"></p>
+
+    <article class="place">
+      <div class="place-img" id="imgGlamping"></div>
+      <div class="place-text">
+        <p class="kicker" data-i18n="stay.glamping.kicker"></p>
+        <h3>Glamping Resort Biosphäre Bliesgau</h3>
+        <p data-i18n="stay.glamping.body"></p>
+        <ul class="facts" data-i18n-list="stay.glamping.facts"></ul>
+        <a class="link" target="_blank" rel="noopener" id="lnkGlamping" data-i18n="stay.book"></a>
+      </div>
+    </article>
+
+    <article class="place">
+      <div class="place-img" id="imgHotel"></div>
+      <div class="place-text">
+        <p class="kicker" data-i18n="stay.hotel.kicker"></p>
+        <h3 id="hotelName"></h3>
+        <p data-i18n="stay.hotel.body"></p>
+        <ul class="facts" data-i18n-list="stay.hotel.facts"></ul>
+        <a class="link" target="_blank" rel="noopener" id="lnkHotel" data-i18n="stay.book"></a>
+      </div>
+    </article>
+
+    <article class="place place-town">
+      <div class="place-text">
+        <p class="kicker" data-i18n="stay.town.kicker"></p>
+        <h3>Sarreguemines</h3>
+        <p data-i18n="stay.town.body"></p>
+        <a class="link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/h%C3%B4tel+Sarreguemines" data-i18n="stay.town.link"></a>
+      </div>
+    </article>
+  </section>
+
+  <!-- GIFT -->
+  <section class="gift" id="gift">
+    <img class="leaf leaf-gift" src="assets/img/leaf-l.png" alt="" aria-hidden="true">
+    <h2 data-i18n="gift.title"></h2>
+    <p data-i18n="gift.body"></p>
+    <p data-i18n="gift.body2"></p>
+    <a class="btn btn-ghost" id="cagnotteBtn" target="_blank" rel="noopener" data-i18n="gift.cta"></a>
+    <div class="iban" id="ibanBox" hidden>
+      <p class="kicker" data-i18n="gift.iban"></p>
+      <p><span id="ibanHolder"></span><br><code id="ibanValue"></code>
+        <button type="button" class="copy" id="ibanCopy" data-i18n="gift.copy"></button></p>
+    </div>
+  </section>
+
+  <!-- RSVP -->
+  <section class="rsvp" id="rsvp">
+    <h2 data-i18n="rsvp.title"></h2>
+    <p class="deadline" data-i18n="rsvp.deadline"></p>
+    <p class="lede" data-i18n="rsvp.lede"></p>
+
+    <p class="already" id="already" hidden data-i18n="rsvp.already"></p>
+
+    <form id="form" novalidate>
+      <fieldset class="choice">
+        <legend data-i18n="f.coming"></legend>
+        <label class="pill"><input type="radio" name="attending" value="Yes" required><span data-i18n="f.yes"></span></label>
+        <label class="pill"><input type="radio" name="attending" value="No"><span data-i18n="f.no"></span></label>
+      </fieldset>
+
+      <div class="row">
+        <label class="field"><span data-i18n="f.name"></span>
+          <input name="name" autocomplete="name" required maxlength="120"></label>
+      </div>
+      <div class="row two">
+        <label class="field"><span data-i18n="f.email"></span>
+          <input name="email" type="email" autocomplete="email" required maxlength="160"></label>
+        <label class="field"><span data-i18n="f.phone"></span>
+          <input name="phone" type="tel" autocomplete="tel" required maxlength="40" placeholder="+49 …"></label>
+      </div>
+
+      <div class="if-yes">
+        <div class="field">
+          <span data-i18n="f.companions"></span>
+          <small data-i18n="f.companionsHint"></small>
+          <div class="stepper">
+            <button type="button" id="minus" aria-label="−">−</button>
+            <output id="count">0</output>
+            <button type="button" id="plus" aria-label="+">+</button>
+          </div>
+        </div>
+        <div id="companions" class="companions"></div>
+
+        <div class="row two">
+          <div class="field">
+            <span data-i18n="f.allergies"></span>
+            <div class="multi" id="allergies" data-name="allergies"></div>
+            <input class="other" name="allergiesOther" maxlength="200" hidden data-i18n-ph="f.otherPh">
+          </div>
+          <div class="field">
+            <span data-i18n="f.diet"></span>
+            <div class="multi" id="diet" data-name="diet"></div>
+            <input class="other" name="dietOther" maxlength="200" hidden data-i18n-ph="f.otherPh">
+          </div>
+        </div>
+        <label class="field"><span data-i18n="f.kitchen"></span>
+          <input name="kitchen" maxlength="300" data-i18n-ph="f.kitchenPh"></label>
+
+        <div class="field">
+          <span data-i18n="f.music"></span>
+          <small data-i18n="f.musicHint"></small>
+          <div id="songs"></div>
+          <button type="button" class="link-btn" id="addSong" data-i18n="f.addSong"></button>
+        </div>
+      </div>
+
+      <label class="field"><span data-i18n="f.message"></span>
+        <textarea name="message" rows="3" maxlength="1000"></textarea></label>
+
+      <!-- honeypot -->
+      <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+      <p class="error" id="error" role="alert" hidden></p>
+      <button class="btn" type="submit" id="submit" data-i18n="f.send"></button>
+    </form>
+
+    <div class="thanks" id="thanks" hidden>
+      <img class="leaf" src="assets/img/leaf-r.png" alt="" aria-hidden="true">
+      <p class="thanks-title" id="thanksTitle"></p>
+      <p id="thanksBody"></p>
+      <button type="button" class="link-btn" id="again" data-i18n="rsvp.again"></button>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <img src="assets/img/names.png" alt="Lynn &amp; Fadi" width="260">
+  <p>27.03.2027 · Bliesgau Scheune · Kleinblittersdorf</p>
+</footer>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

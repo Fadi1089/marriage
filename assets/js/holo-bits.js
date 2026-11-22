@@ -1,5 +1,5 @@
 // Holographic foil touches, using the holospot kit (MIT, github.com/dmitrykurash/holospot).
-//  1. a gold-foil wedding ring turning above the gift section
+//  1. a gift box in gold cracked-ice foil turning above the gift section
 //  2. a foil-stamped keepsake card (the invitation's own lettering) shown after a guest says yes
 // The kit and three.js are heavy, so they are fetched only when one of these is about to be seen.
 // Without WebGL 2 nothing happens and the page keeps its plain leaf.
@@ -45,33 +45,78 @@ function sizer(renderer, camera, box) {
   return fit;
 }
 
-/* ───────── 1. the ring ───────── */
-async function ring(box) {
-  const [THREE, { Holo }] = await load();
-  const renderer = new THREE.WebGLRenderer({ alpha: true });
+/* ───────── 1. the gift (assets/models/gift.glb), repainted in the invitation's colours ───────── */
+// Plain three.js (no foil kit): the model's palette texture is recoloured, ribbon → sage, box → ivory.
+const THREE_CDN = "https://cdn.jsdelivr.net/npm/three@0.185.1/examples/jsm/";
+const GIFT_COLOURS = [
+  { from: [255, 214, 54], to: [134, 160, 136] },   // yellow ribbon → sage
+  { from: [190, 32, 32],  to: [247, 242, 230] },   // red box       → ivory
+];
+function repaint(THREE, map) {
+  const img = map.image, c = document.createElement("canvas");
+  c.width = img.width; c.height = img.height;
+  const g = c.getContext("2d"); g.drawImage(img, 0, 0);
+  const d = g.getImageData(0, 0, c.width, c.height), px = d.data;
+  for (let i = 0; i < px.length; i += 4) {
+    for (const { from, to } of GIFT_COLOURS) {
+      const dr = px[i] - from[0], dg = px[i + 1] - from[1], db = px[i + 2] - from[2];
+      if (dr * dr + dg * dg + db * db < 2600) {
+        const shade = (px[i] + px[i + 1] + px[i + 2]) / (from[0] + from[1] + from[2]);   // keep light/dark variations
+        px[i] = Math.min(255, to[0] * shade); px[i + 1] = Math.min(255, to[1] * shade); px[i + 2] = Math.min(255, to[2] * shade);
+        break;
+      }
+    }
+  }
+  g.putImageData(d, 0, 0);
+  const tex = new THREE.CanvasTexture(c);
+  tex.flipY = map.flipY; tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 4;
+  return tex;
+}
+async function gift(box) {
+  const [THREE, { GLTFLoader }, { DRACOLoader }] = await Promise.all([
+    import("three"), import("three/addons/loaders/GLTFLoader.js"), import("three/addons/loaders/DRACOLoader.js"),
+  ]);
+  const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
   renderer.setClearColor(0x000000, 0);
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.toneMapping = THREE.NeutralToneMapping;
   box.append(renderer.domElement);
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 100);
-  camera.position.set(0, 0, 7.6);
+  const camera = new THREE.PerspectiveCamera(30, 1, 0.01, 100);
   sizer(renderer, camera, box);
 
-  const mesh = new THREE.Mesh(new THREE.TorusGeometry(1, 0.22, 64, 220), new THREE.MeshStandardMaterial());
-  scene.add(mesh);
-  const holo = new Holo(renderer, { quality: "low" });
-  const obj = holo.apply(mesh, {
-    material: "vortex", sizeMm: 70,
-    settings: { "scene.background": "white", "dof.on": false, "vortex.bands": 36, "vortex.depth": 100 },
+  const draco = new DRACOLoader().setDecoderPath(THREE_CDN + "libs/draco/gltf/");
+  const gltf = await new GLTFLoader().setDRACOLoader(draco).loadAsync(new URL("assets/models/gift.glb", location.href).href);
+  const model = gltf.scene;
+  // centre the box on the origin so it turns in place
+  const bounds = new THREE.Box3().setFromObject(model), centre = bounds.getCenter(new THREE.Vector3()), size = bounds.getSize(new THREE.Vector3());
+  model.position.sub(centre);
+  const pivot = new THREE.Group();
+  pivot.add(model);
+  scene.add(pivot);
+  const dist = (Math.max(size.x, size.y, size.z) * 1.55) / (2 * Math.tan(THREE.MathUtils.degToRad(15)));
+  camera.position.set(0, size.y * 0.35, dist);
+  camera.lookAt(0, 0, 0);
+
+  model.traverse((o) => {
+    if (!o.isMesh) return;
+    const m = o.material;
+    if (m.map) m.map = repaint(THREE, m.map);
+    m.roughness = 0.55; m.metalness = 0;
+    m.needsUpdate = true;
   });
-  const tilt = tilter(box, 18);
-  await obj.ready;
+  // soft daylight: warm key from the upper left, sage-tinted bounce from below
+  scene.add(new THREE.HemisphereLight(0xffffff, 0xcfdccc, 1.6));
+  const key = new THREE.DirectionalLight(0xfff6e8, 2.2); key.position.set(-1.5, 2.5, 2); scene.add(key);
+  const rim = new THREE.DirectionalLight(0xffffff, 0.8); rim.position.set(2, 1, -2); scene.add(rim);
+
+  const tilt = tilter(box, 14);
   box.classList.add("live");
   whileVisible(box, (t) => {
     const p = tilt();
-    const spin = reduce ? 0.6 : t / 3200;
-    mesh.rotation.set(1.05 + THREE.MathUtils.degToRad(p.x), spin + THREE.MathUtils.degToRad(p.y), 0.25);
-    holo.render(scene, camera);
+    const spin = reduce ? 0.7 : t / 3400;
+    pivot.rotation.set(THREE.MathUtils.degToRad(p.x * 0.6), spin + THREE.MathUtils.degToRad(p.y), 0);
+    renderer.render(scene, camera);
   });
 }
 
@@ -150,29 +195,13 @@ async function keepsake(guest) {
 /* ───────── wiring ───────── */
 window.holoKeepsake = (guest) => keepsake(guest).catch((e) => console.warn("keepsake", e));
 
-const ringBox = document.querySelector(".holo-ring");
-if (ringBox && hasGL2) {
+const giftBox = document.querySelector(".holo-gift");
+if (giftBox && hasGL2) {
   // start fetching a little before the gift section scrolls into view
   const io = new IntersectionObserver(([e]) => {
     if (!e.isIntersecting) return;
     io.disconnect();
-    ring(ringBox).catch((err) => console.warn("ring", err));
+    gift(giftBox).catch((err) => console.warn("gift", err));
   }, { rootMargin: "600px" });
-  io.observe(ringBox);
-}
-
-/* ───────── 3. the holographic cloth at night (footer) ───────── */
-const clothBox = document.getElementById("cloth");
-if (clothBox && hasGL2) {
-  const io = new IntersectionObserver(async ([e]) => {
-    if (!e.isIntersecting) return;
-    io.disconnect();
-    try {
-      await import("three");
-      const { mountCloth } = await import(new URL("holocloth.js", import.meta.url).href);
-      await mountCloth(clothBox, new URL("assets/img/names-white.png", location.href).href);
-      clothBox.classList.add("live");
-    } catch (err) { console.warn("cloth", err); }
-  }, { rootMargin: "500px" });
-  io.observe(clothBox);
+  io.observe(giftBox);
 }

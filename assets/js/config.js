@@ -7,7 +7,7 @@ window.CONFIG = {
   scriptUrl: "https://script.google.com/macros/s/AKfycbx5Eerw7YI1ooxkMBGv2-kK2WxaTk0CYjuAPB0qxW3FHJuInmz9uFpwfaDLSKprmKG5/exec",
 
   // Cagnotte link (Leetchi, Lydia/Sumeria, PayPal…). Leave "" to hide the button.
-  cagnotteUrl: "",
+  cagnotteUrl: "https://www.onparticipe.fr/c/M2lP97u0",
 
   // Optional bank transfer instead of / next to the cagnotte. Leave "" to hide.
   iban: "",

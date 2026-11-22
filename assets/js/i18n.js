@@ -46,6 +46,7 @@ fr: {
   "gift.body2": "Si vous tenez quand même à nous offrir quelque chose, une cagnotte est ouverte, comme le veut la tradition française.",
   "gift.cta": "Participer à la cagnotte",
   "gift.soon": "Le lien de la cagnotte arrive bientôt.",
+  "gift.tip": "Au moment de payer, OnParticipe propose un pourboire pour la plateforme : il est facultatif, vous pouvez le mettre à 0 €.",
   "gift.iban": "Ou par virement",
   "gift.copy": "Copier", "gift.copied": "Copié",
 
@@ -136,6 +137,7 @@ de: {
   "gift.body2": "Wer uns trotzdem etwas schenken möchte: Nach französischer Tradition gibt es eine Cagnotte, eine gemeinsame Geldkasse.",
   "gift.cta": "Zur Cagnotte",
   "gift.soon": "Der Link zur Cagnotte folgt bald.",
+  "gift.tip": "Beim Bezahlen schlägt OnParticipe ein Trinkgeld für die Plattform vor: Es ist freiwillig, ihr könnt es auf 0 € setzen.",
   "gift.iban": "Oder per Überweisung",
   "gift.copy": "Kopieren", "gift.copied": "Kopiert",
 
@@ -226,6 +228,7 @@ en: {
   "gift.body2": "If you still want to give us something, there is a cagnotte, a shared money pot, as French tradition goes.",
   "gift.cta": "Go to the cagnotte",
   "gift.soon": "The cagnotte link is coming soon.",
+  "gift.tip": "At checkout, OnParticipe suggests a tip for the platform: it's optional, you can set it to €0.",
   "gift.iban": "Or by bank transfer",
   "gift.copy": "Copy", "gift.copied": "Copied",
 

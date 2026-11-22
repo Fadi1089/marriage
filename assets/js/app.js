@@ -224,19 +224,97 @@
   $("#minus").onclick = () => { companions.pop(); renderCompanions(); };
 
   /* ───────── form: songs ───────── */
-  let songs = [""];
+  // Each song field searches the free iTunes Search API (no key, CORS-enabled).
+  let songs = [{ text: "", art: "" }];
+  const audio = new Audio();
+  let playingBtn = null;
+  function stopPreview() {
+    audio.pause();
+    if (playingBtn) { playingBtn.textContent = "▶"; playingBtn.classList.remove("on"); }
+    playingBtn = null;
+  }
+  function togglePreview(url, btn) {
+    if (playingBtn === btn) return stopPreview();
+    stopPreview();
+    audio.src = url; audio.play().catch(() => {});
+    playingBtn = btn; btn.textContent = "❚❚"; btn.classList.add("on");
+    audio.onended = stopPreview;
+  }
+  function songField(s) {
+    const wrap = document.createElement("div");
+    wrap.className = "song" + (s.art ? " has-art" : "");
+    const art = new Image(); art.className = "song-art"; art.alt = "";
+    if (s.art) art.src = s.art;
+    const inp = document.createElement("input");
+    inp.maxLength = 150; inp.value = s.text; inp.placeholder = t("f.songPh"); inp.autocomplete = "off";
+    inp.setAttribute("role", "combobox"); inp.setAttribute("aria-autocomplete", "list"); inp.setAttribute("aria-expanded", "false");
+    const list = document.createElement("ul");
+    list.className = "song-list"; list.hidden = true; list.setAttribute("role", "listbox");
+    wrap.append(art, inp, list);
+
+    let timer, results = [], active = -1, seq = 0;
+    const close = () => { list.hidden = true; inp.setAttribute("aria-expanded", "false"); };
+    const pick = r => {
+      s.text = `${r.trackName} — ${r.artistName}`; s.art = r.artworkUrl60 || "";
+      inp.value = s.text; art.src = s.art; wrap.classList.toggle("has-art", !!s.art);
+      close(); stopPreview();
+    };
+    function draw() {
+      list.innerHTML = "";
+      if (!results.length) return close();
+      results.forEach((r, i) => {
+        const li = document.createElement("li");
+        li.setAttribute("role", "option");
+        if (i === active) li.className = "active";
+        li.innerHTML = `<img alt="" src="${r.artworkUrl60 || ""}"><span class="t"></span><span class="a"></span>` +
+                       (r.previewUrl ? `<button type="button" class="play" aria-label="preview">▶</button>` : "");
+        $(".t", li).textContent = r.trackName;
+        $(".a", li).textContent = r.artistName;
+        li.addEventListener("mousedown", e => e.preventDefault()); // keep focus in the input
+        li.onclick = () => pick(r);
+        const pb = $(".play", li);
+        if (pb) pb.onclick = e => { e.stopPropagation(); togglePreview(r.previewUrl, pb); };
+        list.append(li);
+      });
+      const src = document.createElement("li");
+      src.className = "src"; src.textContent = "Apple Music";
+      list.append(src);
+      list.hidden = false; inp.setAttribute("aria-expanded", "true");
+    }
+    async function search(q) {
+      const my = ++seq;
+      const cc = ["FR", "DE", "BE", "CH", "LU", "AT"].includes(country) ? country : "FR";
+      try {
+        const r = await fetch(`https://itunes.apple.com/search?media=music&entity=song&limit=6&country=${cc}&term=${encodeURIComponent(q)}`);
+        const j = await r.json();
+        if (my !== seq) return; // a newer search is on its way
+        results = j.results || []; active = -1; draw();
+      } catch { close(); }
+    }
+    inp.oninput = () => {
+      s.text = inp.value; s.art = ""; wrap.classList.remove("has-art");
+      clearTimeout(timer);
+      const q = inp.value.trim();
+      if (q.length < 2) { seq++; return close(); }
+      timer = setTimeout(() => search(q), 320);
+    };
+    inp.onkeydown = e => {
+      if (list.hidden) return;
+      if (e.key === "ArrowDown") { active = Math.min(active + 1, results.length - 1); draw(); e.preventDefault(); }
+      else if (e.key === "ArrowUp") { active = Math.max(active - 1, 0); draw(); e.preventDefault(); }
+      else if (e.key === "Enter" && active >= 0) { pick(results[active]); e.preventDefault(); }
+      else if (e.key === "Escape") close();
+    };
+    inp.onblur = () => setTimeout(close, 200);
+    return wrap;
+  }
   function renderSongs() {
     const box = $("#songs");
     box.innerHTML = "";
-    songs.forEach((s, i) => {
-      const inp = document.createElement("input");
-      inp.maxLength = 150; inp.value = s; inp.placeholder = t("f.songPh");
-      inp.oninput = () => { songs[i] = inp.value; };
-      box.append(inp);
-    });
+    songs.forEach(s => box.append(songField(s)));
     $("#addSong").hidden = songs.length >= 8;
   }
-  $("#addSong").onclick = () => { songs.push(""); renderSongs(); $("#songs input:last-child").focus(); };
+  $("#addSong").onclick = () => { songs.push({ text: "", art: "" }); renderSongs(); $("#songs .song:last-child input").focus(); };
 
   /* ───────── form: attending toggle ───────── */
   const form = $("#form");
@@ -278,7 +356,7 @@
       diet: yes ? [...chosen.diet].filter(k => k !== "other").map(k => enD[k]).join(", ") : "",
       dietOther: yes && chosen.diet.has("other") ? (fd.get("dietOther") || "").trim() : "",
       kitchen: yes ? (fd.get("kitchen") || "").trim() : "",
-      music: yes ? songs.map(s => s.trim()).filter(Boolean).join("\n") : "",
+      music: yes ? songs.map(s => s.text.trim()).filter(Boolean).join("\n") : "",
       message: (fd.get("message") || "").trim(),
       lang, country
     };

@@ -168,3 +168,27 @@ input:focus, textarea:focus, .multi-btn:focus { outline: none; background: #fff;
 main { overflow-x: clip; }
 
 .gift-note { font-size: 14px; color: var(--ink-soft); max-width: 420px; margin: 14px auto 0 !important; }
+
+/* ── song search (iTunes) ── */
+.song { position: relative; margin-bottom: 8px; }
+#songs input { margin-bottom: 0; }
+.song .song-art { display: none; position: absolute; left: 8px; top: 50%; translate: 0 -50%; width: 30px; height: 30px; border-radius: 4px; object-fit: cover; }
+.song.has-art .song-art { display: block; }
+.song.has-art input { padding-left: 48px; }
+.song-list {
+  position: absolute; z-index: 15; left: 0; right: 0; top: calc(100% + 4px);
+  list-style: none; margin: 0; padding: 6px 0; background: #fff;
+  border: 1px solid #d6ddd4; border-radius: 8px; box-shadow: 0 14px 34px -14px rgba(40,60,40,.4);
+  max-height: 360px; overflow: auto;
+}
+.song-list li { display: grid; grid-template-columns: 40px 1fr auto; column-gap: 10px; align-items: center; padding: 7px 10px; cursor: pointer; }
+.song-list li img { grid-row: 1 / 3; width: 40px; height: 40px; border-radius: 4px; object-fit: cover; }
+.song-list .t { grid-column: 2; font-weight: 500; font-size: 15px; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.song-list .a { grid-column: 2; font-size: 13px; color: var(--ink-soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.song-list .play {
+  grid-column: 3; grid-row: 1 / 3; width: 34px; height: 34px; border-radius: 50%;
+  border: 1px solid var(--sage); background: #fff; color: var(--sage-deep); font-size: 11px; cursor: pointer;
+}
+.song-list .play.on { background: var(--sage); color: #fff; }
+.song-list li:hover, .song-list li.active { background: var(--wash); }
+.song-list li.src { display: block; padding: 4px 12px 0; font-size: 11px; color: var(--ink-soft); text-align: right; cursor: default; background: none; }

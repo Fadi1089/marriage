@@ -166,3 +166,5 @@ input:focus, textarea:focus, .multi-btn:focus { outline: none; background: #fff;
 
 /* keep bleeding leaves from widening the page on phones */
 main { overflow-x: clip; }
+
+.gift-note { font-size: 14px; color: var(--ink-soft); max-width: 420px; margin: 14px auto 0 !important; }

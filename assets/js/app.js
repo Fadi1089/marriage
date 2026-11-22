@@ -1,6 +1,6 @@
 (() => {
   const C = window.CONFIG, T = window.I18N;
-  const SUP = ["fr", "de", "en", "nl"];
+  const SUP = ["fr", "de", "en"];
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
   let lang = "en", country = "";
@@ -28,8 +28,7 @@
     switch (cc) {
       case "DE": case "AT": case "LI": return "de";
       case "FR": case "MC": return "fr";
-      case "NL": case "SR": return "nl";
-      case "BE": return pick(["nl", "fr", "de"], "nl");
+      case "BE": return pick(["fr", "de"], "fr");
       case "CH": return pick(["de", "fr"], "de");
       case "LU": return pick(["fr", "de"], "fr");
       default:   return br || "en";

@@ -8,7 +8,7 @@ RSVP site for the wedding at the Bliesgau Scheune. Plain static site (GitHub Pag
 2. Repo **Settings → Pages → Build and deployment → Deploy from a branch → `main` / `(root)` → Save**.
 3. After about a minute the site is at `https://fadi1089.github.io/marriage/`.
 
-Language is picked from the visitor's country (DE/AT → German, FR → French, NL/BE → Dutch, else browser language, else English).
+Language is picked from the visitor's country (DE/AT → German, FR/BE/LU → French, else browser language, else English).
 You can force one in a link: `…/marriage/?lang=de`.
 
 ## 2. Connect the form to a Google Sheet (about 5 min)
@@ -35,12 +35,12 @@ What you get in the Sheet:
 
 Create the pot, then paste its link into `assets/js/config.js` → `cagnotteUrl`. Until then the site says "link coming soon".
 
-Options: Leetchi or Lydia/Sumeria (both have "cagnotte mariage", guests from DE/NL can pay by card), or just a bank transfer: fill `iban` in `config.js` and an IBAN block with a copy button appears.
+Options: OnParticipe (free, optional tip for the platform), Lydia/Sumeria or Leetchi, or just a bank transfer: fill `iban` in `config.js` and an IBAN block with a copy button appears.
 
 ## Files
 
 - `index.html`: the page
-- `assets/js/i18n.js`: all texts in FR / DE / EN / NL
+- `assets/js/i18n.js`: all texts in FR / DE / EN
 - `assets/js/config.js`: links you may change (form URL, cagnotte, hotels)
 - `assets/css/style.css`: look (colours taken from the printed invitation)
 - `apps-script/Code.gs`: the Google Sheet backend

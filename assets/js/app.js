@@ -390,7 +390,7 @@
       }
       if (!ok) throw new Error("not ok");
       store.set("rsvp", JSON.stringify({ name: payload.name, attending, total: payload.total }));
-      showThanks(payload.name.split(" ")[0], yes, payload.total);
+      showThanks(payload.name.split(" ")[0], yes, payload.total, payload.name);
     } catch {
       showError(t("f.errSend"));
     } finally {
@@ -398,7 +398,9 @@
     }
   });
 
-  function showThanks(first, yes, n) {
+  function showThanks(first, yes, n, full) {
+    if (yes && window.holoKeepsake) window.holoKeepsake(full || first);
+    else { const k = $("#keepsake"); if (k) k.hidden = true; }
     form.hidden = true;
     $("#already").hidden = true;
     $("#thanks").hidden = false;

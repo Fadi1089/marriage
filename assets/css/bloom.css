@@ -192,3 +192,49 @@ main { overflow-x: clip; }
 .song-list .play.on { background: var(--sage); color: #fff; }
 .song-list li:hover, .song-list li.active { background: var(--wash); }
 .song-list li.src { display: block; padding: 4px 12px 0; font-size: 11px; color: var(--ink-soft); text-align: right; cursor: default; background: none; }
+
+/* ── OnParticipe tip guide ── */
+.tip-guide {
+  text-align: left; max-width: 560px; margin: 22px auto 0; padding: 18px 20px 8px;
+  background: #fffaf0; border: 1px solid #ecdcae; border-radius: 10px;
+  box-shadow: 0 10px 24px -18px rgba(120,95,30,.45);
+}
+.tip-title { font-weight: 600; margin: 0 0 10px !important; color: #6b5420; }
+.tip-guide ol { margin: 0; padding-left: 22px; }
+.tip-guide li { margin: 0 0 14px; font-size: 15px; line-height: 1.45; }
+.tip-guide li img { display: block; max-width: 100%; height: auto; margin-top: 8px; border-radius: 6px; border: 1px solid #ece6d6; background: #fff; }
+
+/* ── holographic ring (gift section) ── */
+.holo-ring { position: relative; width: 190px; height: 170px; margin: 0 auto 4px; }
+.holo-ring .leaf-gift { position: absolute; left: 50%; top: 50%; translate: -50% -50%; margin: 0; transition: opacity .8s; }
+.holo-ring canvas { position: absolute; inset: 0; width: 100% !important; height: 100% !important; opacity: 0; transition: opacity 1.2s ease; }
+.holo-ring.live canvas { opacity: 1; }
+.holo-ring.live .leaf-gift { opacity: 0; }
+
+/* ── keepsake card after a yes ── */
+.keepsake { margin: 18px auto 10px; width: min(330px, 82vw); }
+.keepsake-stage { position: relative; aspect-ratio: 3 / 4; border-radius: 8px; overflow: hidden;
+  background: radial-gradient(ellipse at 50% 45%, #f6f8f4, #fff 70%); }
+.keepsake-stage::after { content: ""; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, rgba(255,255,255,.7) 50%, transparent 70%) -200% 0 / 200% 100% no-repeat; animation: shimmer 1.6s linear infinite; }
+.keepsake.live .keepsake-stage::after { display: none; }
+@keyframes shimmer { to { background-position: 200% 0; } }
+.keepsake-stage canvas { display: block; width: 100% !important; height: 100% !important; touch-action: pan-y; }
+.keepsake-cap { font-size: 14px; color: var(--ink-soft); font-style: italic; margin: 8px 0 0; }
+
+/* ── night footer with the holographic cloth ── */
+.foot.night { background: #060912; color: #b9c2d3; border-top: 0; padding: 0 20px 46px; position: relative; }
+main > .wash:last-child { margin-bottom: 0; }
+main > .wash:last-child::after { display: none; }
+.foot.night::before { content: ""; position: absolute; left: 0; right: 0; top: -1px; height: 28px; z-index: 2; background: #f1f5ef;
+  -webkit-mask: url(../img/edge.svg) 0 0 / 100% 100% no-repeat; mask: url(../img/edge.svg) 0 0 / 100% 100% no-repeat; }
+.cloth-stage { position: relative; height: clamp(320px, 52vw, 540px); margin: 0 -20px;
+  -webkit-mask-image: linear-gradient(transparent, #000 14%, #000 86%, transparent); mask-image: linear-gradient(transparent, #000 14%, #000 86%, transparent); }
+.cloth-stage canvas { position: absolute; inset: 0; width: 100% !important; height: 100% !important; opacity: 0; transition: opacity 1.4s ease; }
+.cloth-stage.live canvas { opacity: 1; }
+.cloth-fallback { position: absolute; left: 50%; top: 50%; translate: -50% -50%; width: min(300px, 70vw); opacity: .9; transition: opacity .8s; }
+.cloth-stage.live .cloth-fallback { opacity: 0; }
+.cloth-hint { font: 13px var(--display); letter-spacing: .16em; text-transform: uppercase; color: #8e9ab0; margin: 0 0 18px; }
+.cloth-stage:not(.live) + .cloth-hint { visibility: hidden; }
+.foot.night p { margin: 6px 0; }
+.foot-credit { font-size: 11px; opacity: .55; }
+.foot-credit a { color: inherit; }

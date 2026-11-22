@@ -1,0 +1,81 @@
+/* ─────────────────────────────────────────────────────────────
+   Taped polaroids + stickers on the day strip.
+   ───────────────────────────────────────────────────────────── */
+
+/* make room above and below the band for the photos */
+.track { height: 660px; }
+.band { top: 300px; }
+.ev { display: flex; flex-direction: column; gap: 14px; }
+.ev.up { bottom: calc(660px - 300px); }
+.ev.down { top: 384px; }
+.ev.up .snap { order: -1; }
+
+/* polaroid */
+.snap {
+  position: relative; margin: 0; width: 138px; padding: 7px 7px 22px;
+  background: #fff; rotate: var(--r, 0deg);
+  box-shadow: 0 1px 2px rgba(0,0,0,.08), 0 10px 22px -10px rgba(40,50,40,.45);
+  transition: rotate .4s cubic-bezier(.2,.7,.2,1), scale .4s cubic-bezier(.2,.7,.2,1), box-shadow .4s;
+}
+.snap > img:first-child { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; background: #e9eee7; filter: saturate(.85) contrast(.97); }
+.ev:hover .snap { rotate: 0deg; scale: 1.06; box-shadow: 0 2px 4px rgba(0,0,0,.08), 0 18px 34px -12px rgba(40,50,40,.5); z-index: 3; }
+
+/* scotch tape: translucent, matte, torn ends */
+.tape {
+  position: absolute; width: 62px; height: 20px; z-index: 2;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.45), rgba(255,255,255,.08) 60%, rgba(0,0,0,.03)),
+    rgba(238, 232, 210, .66);
+  box-shadow: 0 1px 1.5px rgba(0,0,0,.08);
+  backdrop-filter: blur(.6px);
+  clip-path: polygon(0 8%, 6% 0, 12% 10%, 18% 2%, 25% 6%, 100% 0, 96% 14%, 100% 28%, 95% 44%, 100% 60%, 96% 76%, 100% 92%, 94% 100%, 88% 92%, 80% 100%, 0 100%, 4% 84%, 0 68%, 5% 52%, 0 36%, 4% 20%);
+}
+.tape.tc { top: -11px; left: 50%; translate: -50% 0; rotate: -3deg; }
+.tape.tl { top: -6px; left: -18px; rotate: -38deg; width: 54px; }
+.tape.tr { top: -6px; right: -18px; rotate: 36deg; width: 54px; }
+
+/* die-cut vinyl stickers: white border + soft shadow */
+.sticker {
+  position: absolute; pointer-events: none; z-index: 3;
+  filter: drop-shadow(2.5px 0 0 #fff) drop-shadow(-2.5px 0 0 #fff) drop-shadow(0 2.5px 0 #fff) drop-shadow(0 -2.5px 0 #fff)
+          drop-shadow(0 4px 5px rgba(0,0,0,.2));
+}
+.snap .sticker.s0 { width: 54px; right: -26px; bottom: -16px; rotate: 12deg; }
+.snap .sticker.s1 { width: 46px; left: -24px; bottom: 26px; rotate: -14deg; }
+.ev:hover .sticker.s0 { animation: wiggle .5s ease; }
+@keyframes wiggle { 30% { rotate: 20deg; } 65% { rotate: 6deg; } }
+
+/* sun and moon stuck on the sky band */
+.band .band-sun, .band .band-moon { left: calc(var(--p) * 100%); translate: -50% 0; width: 44px; top: -30px; }
+.band .band-sun { rotate: -8deg; }
+.band .band-moon { rotate: 10deg; width: 40px; }
+.js .track .band { clip-path: inset(-60px 100% -24px 0); }
+.js .track.in .band { clip-path: inset(-60px 0 -24px 0); }
+
+/* stickers peel in after the band paints */
+.js .track .snap { opacity: 0; scale: .9; transition: opacity .6s ease, scale .6s cubic-bezier(.2,.9,.3,1.3); transition-delay: calc(.7s + var(--i, 0) * .28s); }
+.js .track.in .snap { opacity: 1; scale: 1; }
+
+/* phones: vertical strip, photo to the right of the text */
+@media (max-width: 820px) {
+  .track { height: 1800px; }
+  .band { top: 0; }
+  .ev, .ev.up, .ev.down { flex-direction: row; align-items: flex-start; gap: 10px; top: calc(var(--p) * 100%); bottom: auto; }
+  .ev .txt { flex: 1; min-width: 0; }
+  .ev.up .snap, .snap { order: 2; width: 88px; padding: 5px 5px 14px; margin: 4px 14px 0 0; flex: none; }
+  .tape { width: 46px; height: 16px; }
+  .tape.tl, .tape.tr { width: 40px; }
+  .snap .sticker.s0 { width: 40px; right: -18px; bottom: -12px; }
+  .snap .sticker.s1 { width: 34px; left: -18px; bottom: 18px; }
+  .band .band-sun, .band .band-moon { left: 6px; top: calc(var(--p) * 100%); translate: 0 -50%; width: 34px; }
+  .js .track .band { clip-path: inset(0 -420px 100% -24px); }
+  .js .track.in .band { clip-path: inset(0 -420px 0 -24px); }
+}
+
+/* small print under the strip */
+.day-credits { margin: 6px 0 0; font-size: 12px; color: var(--ink-soft); }
+.day-credits a { color: inherit; }
+
+@media (prefers-reduced-motion: reduce) {
+  .js .track .snap { opacity: 1; scale: 1; }
+}

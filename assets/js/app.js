@@ -82,14 +82,21 @@
     if (lang === "fr") return `${h}h${String(mi).padStart(2, "0")}`;
     return `${String(h).padStart(2, "0")}:${String(mi).padStart(2, "0")}`;
   };
+  // img: taped polaroid (assets/img/day/), stk: stickers (assets/img/stickers/), r: tilt in degrees
   const EVENTS = [
-    { m: 960,  k: "ev.arrive", side: "up" },
-    { m: 990,  k: "ev.ceremony", side: "down" },
-    { m: 1050, end: 1140, k: "ev.photos", note: "ev.photosNote", side: "up" },
-    { m: 1140, k: "ev.buffet", side: "down" },
-    { m: 1200, k: "ev.cake", side: "up" },
-    { m: 1230, k: "ev.party", side: "down", open: true }
+    { m: 960,  k: "ev.arrive", side: "up",   img: "arrive",   stk: ["envelope"],             r: -4, tape: "top" },
+    { m: 990,  k: "ev.ceremony", side: "down", img: "ceremony", stk: ["rings"],              r: 3,  tape: "corners" },
+    { m: 1050, end: 1140, k: "ev.photos", note: "ev.photosNote", side: "up", img: "photos", stk: ["camera", "champagne"], r: -2, tape: "corners" },
+    { m: 1140, k: "ev.buffet", side: "down", img: "buffet",   stk: ["plate"],                r: 4,  tape: "top" },
+    { m: 1200, k: "ev.cake", side: "up",     img: "cake",     stk: ["cake"],                 r: -3, tape: "top" },
+    { m: 1230, k: "ev.party", side: "down", open: true, img: "party", stk: ["disco"],        r: 2,  tape: "corners" }
   ];
+  const snap = e => {
+    if (!e.img) return "";
+    const tapes = e.tape === "corners" ? `<i class="tape tl"></i><i class="tape tr"></i>` : `<i class="tape tc"></i>`;
+    const stickers = (e.stk || []).map((s, i) => `<img class="sticker s${i}" src="assets/img/stickers/${s}.svg" alt="" aria-hidden="true">`).join("");
+    return `<figure class="snap" style="--r:${e.r}deg"><img src="assets/img/day/${e.img}.jpg" alt="" loading="lazy">${tapes}${stickers}</figure>`;
+  };
   function renderDay() {
     const band = $("#band"), evs = $("#evs");
     const stops = SKY.map(([m, c]) => `${c} ${(pos(m) * 100).toFixed(2)}%`).join(", ");
@@ -112,6 +119,12 @@
     jump.className = "jump"; jump.style.setProperty("--p", pos(26 * 60));
     jump.innerHTML = `<i></i><b>${t("ev.clock")}</b>`;
     band.append(jump);
+    for (const [name, m] of [["sun", 1134], ["moon", 23 * 60 + 15]]) {
+      const s = document.createElement("img");
+      s.className = `sticker band-${name}`; s.src = `assets/img/stickers/${name}.svg`; s.alt = ""; s.setAttribute("aria-hidden", "true");
+      s.style.setProperty("--p", pos(m));
+      band.append(s);
+    }
 
     evs.innerHTML = "";
     for (const e of EVENTS) {
@@ -125,8 +138,8 @@
         bar.style.setProperty("--p", pos(e.m)); bar.style.setProperty("--w", pos(e.end) - pos(e.m));
         band.append(bar);
       }
-      li.innerHTML = `<time>${fmt(e.m)}${e.end ? "–" + fmt(e.end) : ""}</time><span class="what"></span>` +
-                     (e.note ? `<span class="note"></span>` : "");
+      li.innerHTML = `<div class="txt"><time>${fmt(e.m)}${e.end ? "–" + fmt(e.end) : ""}</time><span class="what"></span>` +
+                     (e.note ? `<span class="note"></span>` : "") + `</div>` + snap(e);
       $(".what", li).textContent = t(e.k);
       if (e.note) $(".note", li).textContent = t(e.note);
       evs.append(li);

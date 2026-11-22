@@ -20,6 +20,7 @@ fr: {
   "ev.party": "Soirée, jusqu'au bout de la nuit",
   "ev.sunset": "coucher du soleil",
   "ev.clock": "2h → 3h, heure d'été",
+  "day.credits": "Photos (recadrées), Wikimedia Commons :",
 
   "where.title": "Le lieu",
   "where.country": "Allemagne",
@@ -112,6 +113,7 @@ de: {
   "ev.party": "Party bis tief in die Nacht",
   "ev.sunset": "Sonnenuntergang",
   "ev.clock": "2:00 → 3:00 Sommerzeit",
+  "day.credits": "Fotos (zugeschnitten), Wikimedia Commons:",
 
   "where.title": "Der Ort",
   "where.country": "Deutschland",
@@ -204,6 +206,7 @@ en: {
   "ev.party": "Party through the night",
   "ev.sunset": "sunset",
   "ev.clock": "2:00 → 3:00 summer time",
+  "day.credits": "Photos (cropped), Wikimedia Commons:",
 
   "where.title": "The venue",
   "where.country": "Germany",
